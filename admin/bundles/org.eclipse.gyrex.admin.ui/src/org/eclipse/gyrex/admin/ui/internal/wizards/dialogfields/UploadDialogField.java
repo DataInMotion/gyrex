@@ -14,6 +14,7 @@ package org.eclipse.gyrex.admin.ui.internal.wizards.dialogfields;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -64,6 +65,7 @@ public class UploadDialogField extends DialogField {
 	 */
 	private final class UploadHandler implements ServiceHandler {
 
+		final Pattern jSessionIdPattern = Pattern.compile(";jsessionid=[a-z0-9A-Z]+");
 		private final String handlerId;
 		private final IUploadAdapter uploadAdapter;
 		private IUploadHandlerListener listener;
@@ -87,12 +89,14 @@ public class UploadDialogField extends DialogField {
 		}
 
 		public String getUploadUrl() {
-			final StringBuilder url = new StringBuilder(RWT.getServiceManager().getServiceHandlerUrl(handlerId));
-			final int relativeIndex = url.lastIndexOf("/");
-			if (relativeIndex > -1) {
-				url.delete(0, relativeIndex + 1);
-			}
-			return RWT.getResponse().encodeURL(url.toString());
+			// must return absolute url (see discussion on bug 437211 for details and limitation)
+			// strip ';jsessionid=... part
+			final String requestURI = jSessionIdPattern.matcher(RWT.getRequest().getRequestURI()).replaceAll(StringUtils.EMPTY);
+			final String serviceHandlerUrl = jSessionIdPattern.matcher(RWT.getServiceManager().getServiceHandlerUrl(handlerId)).replaceAll(StringUtils.EMPTY);
+			if (!serviceHandlerUrl.startsWith(requestURI))
+				return RWT.getResponse().encodeURL(requestURI + serviceHandlerUrl);
+			else
+				return RWT.getResponse().encodeURL(serviceHandlerUrl);
 		}
 
 		@Override
@@ -231,7 +235,7 @@ public class UploadDialogField extends DialogField {
 
 	/**
 	 * Creates or returns the created text control.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent composite or <code>null</code> when the widget has
 	 *            already been created.
@@ -276,7 +280,7 @@ public class UploadDialogField extends DialogField {
 
 	/**
 	 * Sets the uploadButtonLabel.
-	 * 
+	 *
 	 * @param uploadButtonLabel
 	 *            the uploadButtonLabel to set
 	 */
