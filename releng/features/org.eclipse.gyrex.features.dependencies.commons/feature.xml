@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.gyrex.features.dependencies.commons"
       label="%featureName"
-      version="1.2.0.qualifier"
+      version="1.3.2.qualifier"
       provider-name="%providerName"
       license-feature="org.eclipse.license"
       license-feature-version="1.0.1.qualifier">
@@ -300,6 +300,13 @@
 
    <plugin
          id="org.eclipse.jetty.util"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.google.guava"
          download-size="0"
          install-size="0"
          version="0.0.0"
