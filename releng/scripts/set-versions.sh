@@ -45,10 +45,8 @@ echo "******************"
 echo "Updating versions."
 echo "******************"
 echo ""
-set -x
-find "../features/" -name "pom.xml" -exec mvn org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion="$VERSION" -Dmaven.repo.local="$MAVEN_REPO" "$MAVEN_ARGS" -f {} \;
-find "../products/" -name "pom.xml" -exec mvn org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion="$VERSION" -Dmaven.repo.local="$MAVEN_REPO" "$MAVEN_ARGS" -f {} \;
-set +x
+mvn org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion="$VERSION" -Dmaven.repo.local="$MAVEN_REPO" "$MAVEN_ARGS" -f ../features/pom.xml
+mvn org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion="$VERSION" -Dmaven.repo.local="$MAVEN_REPO" "$MAVEN_ARGS" -f ../products/pom.xml
 
 # cleanup temp folder
 rm -rf "$TEMPREPO"
