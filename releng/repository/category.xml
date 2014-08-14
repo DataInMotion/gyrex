@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-    <feature
-        id="org.eclipse.gyrex.features.master"
-        version="0.0.0">
-    </feature>
+   <feature id="org.eclipse.gyrex.features.master" version="0.0.0">
+      <category name="gyrex.targetcomponents"/>
+   </feature>
+   <category-def name="gyrex.targetcomponents" label="Gyrex Target Components (use slicer, i.e. uncheck &quot;Include required software&quot;)">
+      <description>
+         Target Components for use in Target Platforms. Please uncheck &quot;Include required software&quot; and check &quot;Include all environments&quot;.
+      </description>
+   </category-def>
 </site>
