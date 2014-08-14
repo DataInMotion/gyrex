@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Gyrex Development" sequenceNumber="96">
+<?pde version="3.8"?><target name="Gyrex Development" sequenceNumber="97">
 <locations>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.e4.core.di" version="1.3.0.v20130514-1256"/>
@@ -289,10 +289,10 @@
 <repository location="http://download.eclipse.org/cbi/updates/license"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.jetty.bundles.f.feature.group" version="9.1.5.201405052126"/>
-<unit id="org.eclipse.jetty.bundles.f.source.feature.group" version="9.1.5.201405052126"/>
-<unit id="org.eclipse.jetty.osgi.npn.fragment" version="9.1.5.v20140505"/>
-<repository location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.1.5.v20140505/"/>
+<unit id="org.eclipse.jetty.bundles.f.feature.group" version="9.2.2.201407241931"/>
+<unit id="org.eclipse.jetty.bundles.f.source.feature.group" version="9.2.2.201407241931"/>
+<unit id="org.eclipse.jetty.osgi.npn.fragment" version="9.2.2.v20140723"/>
+<repository location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.2.v20140723/"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.equinox.http.servlet" version="1.1.500.v20140318-1755"/>
