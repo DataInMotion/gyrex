@@ -23,10 +23,6 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sun.jersey.core.spi.scanning.Scanner;
-import com.sun.jersey.core.spi.scanning.ScannerException;
-import com.sun.jersey.core.spi.scanning.ScannerListener;
-
 /**
  * A scanner that recursively scans a bundle for all its class files.
  */
@@ -47,8 +43,9 @@ public class BundleScanner implements Scanner {
 	@Override
 	public void scan(final ScannerListener scannerListener) throws ScannerException {
 		final Collection<String> resources = bundleWiring.listResources("/", "*.class", BundleWiring.LISTRESOURCES_LOCAL | BundleWiring.LISTRESOURCES_RECURSE);
-		if (null == resources)
+		if (null == resources) {
 			throw new ScannerException(String.format("No resources available for bundle '%s'", bundle));
+		}
 		for (final String resource : resources) {
 			LOG.trace("Found resource: {}", resource);
 			if (!scannerListener.onAccept(resource)) {
