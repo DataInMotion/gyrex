@@ -9,7 +9,7 @@
  * Contributors:
  *     Gunnar Wagenknecht - initial API and implementation
  *******************************************************************************/
-package org.eclipse.gyrex.jobs.internal.util;
+package org.eclipse.gyrex.common.scanner;
 
 import java.io.IOException;
 import java.io.InputStream;

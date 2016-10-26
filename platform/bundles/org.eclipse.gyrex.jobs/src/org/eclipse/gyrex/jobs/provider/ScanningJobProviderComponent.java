@@ -18,11 +18,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.gyrex.common.identifiers.IdHelper;
+import org.eclipse.gyrex.common.scanner.BundleAnnotatedClassScanner;
 import org.eclipse.gyrex.context.IModifiableRuntimeContext;
 import org.eclipse.gyrex.jobs.IJobContext;
 import org.eclipse.gyrex.jobs.annotation.JobType;
 import org.eclipse.gyrex.jobs.internal.JobsDebug;
-import org.eclipse.gyrex.jobs.internal.util.BundleAnnotatedClassScanner;
 
 import org.eclipse.core.runtime.jobs.Job;
 
