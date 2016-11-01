@@ -80,7 +80,7 @@ public class CloudState implements ZooKeeperGateListener {
 
 		/**
 		 * Creates a new instance.
-		 * 
+		 *
 		 * @param nodeInfo
 		 */
 		public AutoApproveJob(final NodeInfo nodeInfo) {
@@ -93,9 +93,13 @@ public class CloudState implements ZooKeeperGateListener {
 		@Override
 		protected IStatus run(final IProgressMonitor monitor) {
 			try {
-				if (getNodeEnvironment().inStandaloneMode()) {
+				if (Boolean.TRUE.equals(System.getenv("gyrex.autoapprove")) || Boolean.TRUE.equals(System.getProperty("gyrex.autoapprove")) || getNodeEnvironment().inStandaloneMode()) {
 					ZooKeeperNodeInfo.approve(nodeInfo.getNodeId(), null, nodeInfo.getLocation(), nodeInfo.getAddresses());
-					LOG.info("Node {} approved automatically. Welcome to your local cloud!", nodeInfo.getNodeId());
+					if (getNodeEnvironment().inStandaloneMode()) {
+						LOG.info("Node {} approved automatically. Welcome to your local cloud!", nodeInfo.getNodeId());
+					} else {
+						LOG.info("Node {} approved automatically. Because autoapprove was enabled.", nodeInfo.getNodeId());
+					}
 				}
 				return Status.OK_STATUS;
 			} catch (final Exception e) {
@@ -174,7 +178,7 @@ public class CloudState implements ZooKeeperGateListener {
 
 	/**
 	 * Returns the node info for this node.
-	 * 
+	 *
 	 * @return the node info (maybe <code>null</code> if inactive)
 	 */
 	public static NodeInfo getNodeInfo() {
@@ -345,7 +349,7 @@ public class CloudState implements ZooKeeperGateListener {
 	/**
 	 * Creates the ephemeral ALL node record which indicates that the node is
 	 * online and does not clash with an existing node id.
-	 * 
+	 *
 	 * @param parentPath
 	 * @param info
 	 * @param signature
@@ -507,7 +511,7 @@ public class CloudState implements ZooKeeperGateListener {
 	/**
 	 * Reads the approved node info from ZooKeeper and also sets a monitor to
 	 * get information on update events.
-	 * 
+	 *
 	 * @return the read node info (maybe <code>null</code> if non found
 	 * @throws Exception
 	 *             in case an error occurred reading the node info
@@ -545,7 +549,7 @@ public class CloudState implements ZooKeeperGateListener {
 	 * This reads the new information from ZooKeeper and performs the necessary
 	 * updates.
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *             in case an error occurred refreshing the node info
 	 */
@@ -624,7 +628,7 @@ public class CloudState implements ZooKeeperGateListener {
 	 * Called asynchronously after {@link #gateUp(ZooKeeperGate)} via
 	 * {@link RegistrationJob}.
 	 * </p>
-	 * 
+	 *
 	 * @return <code>true</code> on success, <code>false</code> otherwise
 	 */
 	boolean registerWithCloud() {
@@ -658,8 +662,8 @@ public class CloudState implements ZooKeeperGateListener {
 			try {
 				if (nodeInfo.isApproved()) {
 					setNodeOnline(nodeInfo);
-				} else if (Platform.inDevelopmentMode() && getNodeEnvironment().inStandaloneMode()) {
-					// auto-approve in standalone mode
+				} else if (Boolean.TRUE.equals(System.getenv("gyrex.autoapprove")) || Boolean.TRUE.equals(System.getProperty("gyrex.autoapprove")) || (Platform.inDevelopmentMode() && getNodeEnvironment().inStandaloneMode())) {
+					// auto-approve in standalone mode or if the autoapprove option is set
 					// this needs to be async because approval triggers ZK events on which we react
 					LOG.info("Attempting automatic approval of node {} in standalong development system.", nodeInfo);
 					new AutoApproveJob(nodeInfo).schedule(500l);
@@ -795,7 +799,7 @@ public class CloudState implements ZooKeeperGateListener {
 	 * Called synchronously from {@link #gateDown(ZooKeeperGate)} or
 	 * {@link #gateRecovering(ZooKeeperGate)}.
 	 * </p>
-	 * 
+	 *
 	 * @param interruptOnly
 	 */
 	void unregisterFromCloud(final boolean interruptOnly) {
