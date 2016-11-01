@@ -25,14 +25,10 @@ import org.eclipse.gyrex.http.jaxrs.internal.JaxRsExtensions;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.text.StrBuilder;
+import org.glassfish.jersey.internal.Errors.ErrorMessage;
+import org.glassfish.jersey.internal.Errors.ErrorMessagesException;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.LoggerFactory;
-
-import com.sun.jersey.api.container.filter.LoggingFilter;
-import com.sun.jersey.api.core.DefaultResourceConfig;
-import com.sun.jersey.api.core.ResourceConfig;
-import com.sun.jersey.spi.container.servlet.ServletContainer;
-import com.sun.jersey.spi.inject.Errors.ErrorMessage;
-import com.sun.jersey.spi.inject.Errors.ErrorMessagesException;
 
 /**
  * Base class for HTTP Applications with support for JAX-RS web services.
@@ -52,7 +48,7 @@ public class JaxRsApplication extends Application {
 
 	/**
 	 * Creates a new instance.
-	 * 
+	 *
 	 * @param id
 	 * @param context
 	 */
@@ -68,11 +64,11 @@ public class JaxRsApplication extends Application {
 	 * {@link #getJaxRsClasses()} and {@link #getJaxRsSingletons()}. Subclasses
 	 * may override to provider a more specialized application.
 	 * </p>
-	 * 
+	 *
 	 * @return the JAX-RS Application object (must not be <code>null</code>)
 	 */
 	protected javax.ws.rs.core.Application createJaxRsApplication() {
-		final DefaultResourceConfig resourceConfig = new DefaultResourceConfig();
+		final ResourceConfig resourceConfig = new ResourceConfig();
 
 		final Set<Class<?>> classes = getJaxRsClasses();
 		if (null != classes) {
@@ -96,12 +92,12 @@ public class JaxRsApplication extends Application {
 		resourceConfig.getProperties().putAll(getApplicationContext().getInitProperties());
 
 		// TODO - make that configurable
-		if (!resourceConfig.getProperties().containsKey(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS)) {
-			resourceConfig.getProperties().put(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS, LoggingFilter.class.getName());
-		}
-		if (!resourceConfig.getProperties().containsKey(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS)) {
-			resourceConfig.getProperties().put(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS, LoggingFilter.class.getName());
-		}
+//		if (!resourceConfig.getProperties().containsKey(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS)) {
+//			resourceConfig.getProperties().put(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS, LoggingFilter.class.getName());
+//		}
+//		if (!resourceConfig.getProperties().containsKey(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS)) {
+//			resourceConfig.getProperties().put(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS, LoggingFilter.class.getName());
+//		}
 
 		return resourceConfig;
 	}
@@ -118,7 +114,7 @@ public class JaxRsApplication extends Application {
 	 * JAX-RS Application object that will be used for configuring the JAX-RS
 	 * runtime.
 	 * </p>
-	 * 
+	 *
 	 * @throws IllegalStateException
 	 *             in case the initialization can not be completed currently but
 	 *             may be repeated at a later time
@@ -137,11 +133,11 @@ public class JaxRsApplication extends Application {
 
 		// register
 		try {
-			getApplicationContext().registerServlet(getJaxRsAlias(), new ServletContainer(jaxRsApplication), null);
+			getApplicationContext().registerServlet(getJaxRsAlias(), new org.glassfish.jersey.servlet.ServletContainer(), null);
 		} catch (final ErrorMessagesException e) {
 			// generate a more verbose error message if possible
 			final StrBuilder error = new StrBuilder("Error initializing JAX-RS application.");
-			for (final ErrorMessage m : e.messages) {
+			for (final ErrorMessage m : e.getMessages()) {
 				error.appendNewLine().append("> ").append(extractMessage(m));
 			}
 			// re-throw as ISE in order to re-try initialization later
@@ -170,7 +166,7 @@ public class JaxRsApplication extends Application {
 	 * {@link IApplicationContext#registerServlet(String, javax.servlet.Servlet, java.util.Map)}
 	 * for proper registration.
 	 * </p>
-	 * 
+	 *
 	 * @return the alias for registering the JAX-RS runtime
 	 */
 	protected String getJaxRsAlias() {
@@ -188,7 +184,7 @@ public class JaxRsApplication extends Application {
 	 * <p>
 	 * The default implementation returns an empty set. Subclasses may override.
 	 * </p>
-	 * 
+	 *
 	 * @return a set of classes (may be <code>null</code>)
 	 * @see javax.ws.rs.core.Application#getClasses()
 	 */
@@ -207,7 +203,7 @@ public class JaxRsApplication extends Application {
 	 * <p>
 	 * The default implementation returns an empty set. Subclasses may override.
 	 * </p>
-	 * 
+	 *
 	 * @return a set of singletons (may be <code>null</code>)
 	 */
 	protected Set<Object> getJaxRsSingletons() {

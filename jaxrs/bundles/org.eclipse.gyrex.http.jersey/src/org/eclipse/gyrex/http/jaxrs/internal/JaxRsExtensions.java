@@ -23,12 +23,10 @@ import org.eclipse.gyrex.server.Platform;
 
 import org.osgi.framework.FrameworkUtil;
 
+import org.glassfish.jersey.server.wadl.config.WadlGeneratorConfig;
+import org.glassfish.jersey.server.wadl.internal.generators.WadlGeneratorJAXBGrammarGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.sun.jersey.api.core.ResourceConfig;
-import com.sun.jersey.api.wadl.config.WadlGeneratorConfig;
-import com.sun.jersey.server.wadl.generators.WadlGeneratorJAXBGrammarGenerator;
 
 /**
  * Utility class to enable certain JAX-RS extensions.
@@ -51,7 +49,7 @@ public class JaxRsExtensions {
 		}
 	}
 
-	public static void addWadlSupport(final ResourceConfig resourceConfig) {
+	public static void addWadlSupport(final org.glassfish.jersey.server.ResourceConfig resourceConfig) {
 //		return generator( WadlGeneratorApplicationDoc.class )
 //      .prop( "applicationDocsStream", "application-doc.xml" )
 //    .generator( WadlGeneratorGrammarsSupport.class )

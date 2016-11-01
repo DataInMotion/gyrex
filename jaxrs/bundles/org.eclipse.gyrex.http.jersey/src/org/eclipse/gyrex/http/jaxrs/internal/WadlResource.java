@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -69,14 +70,11 @@ import javax.xml.bind.PropertyException;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.glassfish.jersey.message.internal.MediaTypes;
+import org.glassfish.jersey.server.wadl.WadlApplicationContext;
+import org.glassfish.jersey.server.wadl.internal.ApplicationDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.sun.jersey.core.header.MediaTypes;
-import com.sun.jersey.server.wadl.ApplicationDescription;
-import com.sun.jersey.server.wadl.WadlApplicationContext;
-import com.sun.jersey.spi.resource.Singleton;
-import com.sun.research.ws.wadl.Application;
 
 /**
  * A resource for providing WADL as a way of describing/documenting the
@@ -148,7 +146,7 @@ public class WadlResource {
 	/**
 	 * Generates a WADL describing the available resources, operations and data
 	 * types of all resources available in the application.
-	 * 
+	 *
 	 * @param request
 	 *            the request
 	 * @param uriInfo
@@ -193,7 +191,7 @@ public class WadlResource {
 
 		// build new version
 		try (final ByteArrayOutputStream os = new ByteArrayOutputStream()) {
-			final ApplicationDescription applicationDescription = wadlContext.getApplication(uriInfo);
+			final ApplicationDescription applicationDescription = wadlContext.getApplication(uriInfo, true);
 			final Application application = applicationDescription.getApplication();
 			if (v.getMediaType().equals(MediaTypes.WADL) || v.getMediaType().equals(MediaType.APPLICATION_XML_TYPE)) {
 				try {
@@ -243,7 +241,7 @@ public class WadlResource {
 
 	/**
 	 * Returns the xslStylesheetLocation.
-	 * 
+	 *
 	 * @return the xslStylesheetLocation
 	 */
 	public String getXslStylesheetLocation() {
@@ -252,7 +250,7 @@ public class WadlResource {
 
 	/**
 	 * Sets the xslStylesheetLocation.
-	 * 
+	 *
 	 * @param xslStylesheetLocation
 	 *            the xslStylesheetLocation to set
 	 */

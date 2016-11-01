@@ -16,21 +16,19 @@ import java.util.Set;
 import javax.ws.rs.Path;
 import javax.ws.rs.ext.Provider;
 
+import org.eclipse.gyrex.common.scanner.BundleAnnotatedClassScanner;
+
 import org.osgi.framework.Bundle;
 import org.osgi.framework.wiring.BundleWiring;
 
+import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.sun.jersey.api.core.DefaultResourceConfig;
-import com.sun.jersey.core.spi.scanning.ScannerException;
-import com.sun.jersey.spi.container.ReloadListener;
-import com.sun.jersey.spi.scanning.PathProviderScannerListener;
 
 /**
  * A Jersey resource configuration which scans a bundle for annotated classes.
  */
-public class BundleScanningResourceConfig extends DefaultResourceConfig implements ReloadListener {
+public class BundleScanningResourceConfig extends ResourceConfig {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BundleScanningResourceConfig.class);
 
@@ -42,13 +40,19 @@ public class BundleScanningResourceConfig extends DefaultResourceConfig implemen
 	public BundleScanningResourceConfig(final Bundle bundle) {
 		this.bundle = bundle;
 
-		scan();
-	}
+		final BundleWiring bundleWiring = bundle.adapt(BundleWiring.class);
+		if (null == bundleWiring) {
+			throw new IllegalStateException(String.format("No wiring available for bundle '%s'", bundle));
+		}
 
-	@Override
-	public void onReload() {
-		getClasses().clear();
-		scan();
+		final ClassLoader loader = bundleWiring.getClassLoader();
+		if (null == loader) {
+			throw new IllegalStateException(String.format("No class loader available for bundle '%s'", bundle));
+		}
+
+		setClassLoader(loader);
+
+//		scan();
 	}
 
 	private void scan() {
@@ -56,20 +60,9 @@ public class BundleScanningResourceConfig extends DefaultResourceConfig implemen
 			LOG.debug("Scanning bundle '{}' for annotated classes.", bundle);
 		}
 
-		final BundleWiring bundleWiring = bundle.adapt(BundleWiring.class);
-		if (null == bundleWiring) {
-			throw new ScannerException(String.format("No wiring available for bundle '%s'", bundle));
-		}
+		final BundleAnnotatedClassScanner scanner = new BundleAnnotatedClassScanner(bundle, Path.class);
 
-		final ClassLoader loader = bundleWiring.getClassLoader();
-		if (null == loader) {
-			throw new ScannerException(String.format("No class loader available for bundle '%s'", bundle));
-		}
-
-		final PathProviderScannerListener scannerListener = new PathProviderScannerListener(loader);
-		new BundleScanner(bundle, bundleWiring, loader).scan(scannerListener);
-
-		final Set<Class<?>> annotatedClasses = scannerListener.getAnnotatedClasses();
+		final Set<Class<?>> annotatedClasses = scanner.scan();
 		if (annotatedClasses.isEmpty()) {
 			LOG.warn("No JAX-RS annotated classed found in bundle '{}'.", bundle);
 		} else {

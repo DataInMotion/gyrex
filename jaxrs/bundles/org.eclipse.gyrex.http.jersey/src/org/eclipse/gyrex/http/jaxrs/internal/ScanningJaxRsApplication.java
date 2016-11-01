@@ -18,12 +18,10 @@ import org.eclipse.gyrex.http.jaxrs.JaxRsApplication;
 import org.eclipse.gyrex.http.jaxrs.JaxRsApplicationProviderComponent;
 import org.eclipse.gyrex.http.jaxrs.jersey.spi.inject.ContextServiceInjectableProvider;
 import org.eclipse.gyrex.http.jaxrs.jersey.spi.inject.InjectServiceInjectableProvider;
-import org.eclipse.gyrex.server.Platform;
 
 import org.osgi.framework.Bundle;
 
-import com.sun.jersey.api.container.filter.LoggingFilter;
-import com.sun.jersey.api.core.ResourceConfig;
+import org.glassfish.jersey.server.ResourceConfig;
 
 /**
  * Extension of {@link JaxRsApplication} which is used by
@@ -68,16 +66,16 @@ public final class ScanningJaxRsApplication extends JaxRsApplication {
 		// add init properties
 		resourceConfig.getProperties().putAll(getApplicationContext().getInitProperties());
 
-		// TODO - make that configurable
-		if (Platform.inDevelopmentMode()) {
-			if (!resourceConfig.getProperties().containsKey(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS)) {
-				resourceConfig.getProperties().put(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS, LoggingFilter.class.getName());
-			}
-			if (!resourceConfig.getProperties().containsKey(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS)) {
-				resourceConfig.getProperties().put(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS, LoggingFilter.class.getName());
-			}
-			resourceConfig.getFeatures().put(ResourceConfig.FEATURE_TRACE_PER_REQUEST, Boolean.TRUE);
-		}
+//		// TODO - make that configurable
+//		if (Platform.inDevelopmentMode()) {
+//			if (!resourceConfig.getProperties().containsKey(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS)) {
+//				resourceConfig.getProperties().put(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS, LoggingFilter.class.getName());
+//			}
+//			if (!resourceConfig.getProperties().containsKey(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS)) {
+//				resourceConfig.getProperties().put(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS, LoggingFilter.class.getName());
+//			}
+//			resourceConfig.getFeatures().put(ResourceConfig.FEATURE_TRACE_PER_REQUEST, Boolean.TRUE);
+//		}
 
 		// done
 		return resourceConfig;

@@ -17,20 +17,17 @@ import java.util.Set;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
+import org.eclipse.gyrex.common.scanner.BundleAnnotatedClassScanner;
+
 import org.osgi.framework.Bundle;
-import org.osgi.framework.wiring.BundleWiring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sun.jersey.core.spi.scanning.ScannerException;
-import com.sun.jersey.spi.container.ReloadListener;
-import com.sun.jersey.spi.scanning.AnnotationScannerListener;
-
 /**
  * A scanner which scans a bundle for classes annotated with WebServlet.
  */
-public class WebServletScanner implements ReloadListener {
+public class WebServletScanner {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WebServletScanner.class);
 
@@ -53,34 +50,17 @@ public class WebServletScanner implements ReloadListener {
 		return classes;
 	}
 
-	@Override
-	public void onReload() {
-		getClasses().clear();
-		scan();
-	}
-
 	@SuppressWarnings("unchecked")
 	private void scan() {
 		if (JaxRsDebug.resourceDiscovery) {
-			LOG.debug("Scanning bundle '{}' for annotated classes.", bundle);
+			LOG.debug("Scanning bundle '{}' for WebServlet annotated classes.", bundle);
 		}
 
-		final BundleWiring bundleWiring = bundle.adapt(BundleWiring.class);
-		if (null == bundleWiring) {
-			throw new ScannerException(String.format("No wiring available for bundle '%s'", bundle));
-		}
+		final BundleAnnotatedClassScanner bundleAnnotatedClassScanner = new BundleAnnotatedClassScanner(bundle, WebServlet.class);
 
-		final ClassLoader loader = bundleWiring.getClassLoader();
-		if (null == loader) {
-			throw new ScannerException(String.format("No class loader available for bundle '%s'", bundle));
-		}
-
-		final AnnotationScannerListener scannerListener = new AnnotationScannerListener(loader, WebServlet.class);
-		new BundleScanner(bundle, bundleWiring, loader).scan(scannerListener);
-
-		final Set<Class<?>> annotatedClasses = scannerListener.getAnnotatedClasses();
+		final Set<Class<?>> annotatedClasses = bundleAnnotatedClassScanner.scan();
 		if (annotatedClasses.isEmpty()) {
-			LOG.warn("No JAX-RS annotated classed found in bundle '{}'.", bundle);
+			LOG.warn("No WebServlet annotated classed found in bundle '{}'.", bundle);
 		} else {
 			for (final Class<?> annotatedClass : annotatedClasses) {
 				if (annotatedClass.isAnnotationPresent(WebServlet.class) && HttpServlet.class.isAssignableFrom(annotatedClass)) {
