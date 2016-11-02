@@ -93,7 +93,7 @@ public class CloudState implements ZooKeeperGateListener {
 		@Override
 		protected IStatus run(final IProgressMonitor monitor) {
 			try {
-				if (Boolean.TRUE.equals(System.getenv("gyrex.autoapprove")) || Boolean.TRUE.equals(System.getProperty("gyrex.autoapprove")) || getNodeEnvironment().inStandaloneMode()) {
+				if (Boolean.parseBoolean(System.getenv("gyrex.autoapprove")) || Boolean.parseBoolean(System.getProperty("gyrex.autoapprove")) || getNodeEnvironment().inStandaloneMode()) {
 					ZooKeeperNodeInfo.approve(nodeInfo.getNodeId(), null, nodeInfo.getLocation(), nodeInfo.getAddresses());
 					if (getNodeEnvironment().inStandaloneMode()) {
 						LOG.info("Node {} approved automatically. Welcome to your local cloud!", nodeInfo.getNodeId());
@@ -662,7 +662,7 @@ public class CloudState implements ZooKeeperGateListener {
 			try {
 				if (nodeInfo.isApproved()) {
 					setNodeOnline(nodeInfo);
-				} else if (Boolean.TRUE.equals(System.getenv("gyrex.autoapprove")) || Boolean.TRUE.equals(System.getProperty("gyrex.autoapprove")) || (Platform.inDevelopmentMode() && getNodeEnvironment().inStandaloneMode())) {
+				} else if (Boolean.parseBoolean(System.getenv("gyrex.autoapprove")) || Boolean.parseBoolean(System.getProperty("gyrex.autoapprove")) || (Platform.inDevelopmentMode() && getNodeEnvironment().inStandaloneMode())) {
 					// auto-approve in standalone mode or if the autoapprove option is set
 					// this needs to be async because approval triggers ZK events on which we react
 					LOG.info("Attempting automatic approval of node {} in standalong development system.", nodeInfo);
