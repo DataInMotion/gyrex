@@ -95,11 +95,7 @@ public class CloudState implements ZooKeeperGateListener {
 			try {
 				if (Boolean.parseBoolean(System.getenv("gyrex.autoapprove")) || Boolean.parseBoolean(System.getProperty("gyrex.autoapprove")) || getNodeEnvironment().inStandaloneMode()) {
 					ZooKeeperNodeInfo.approve(nodeInfo.getNodeId(), null, nodeInfo.getLocation(), nodeInfo.getAddresses());
-					if (getNodeEnvironment().inStandaloneMode()) {
-						LOG.info("Node {} approved automatically. Welcome to your local cloud!", nodeInfo.getNodeId());
-					} else {
-						LOG.info("Node {} approved automatically. Because autoapprove was enabled.", nodeInfo.getNodeId());
-					}
+					LOG.info("Node {} approved automatically. Welcome to the cloud!", nodeInfo.getNodeId());
 				}
 				return Status.OK_STATUS;
 			} catch (final Exception e) {
