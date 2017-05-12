@@ -17,12 +17,13 @@ import java.net.URL;
 import org.eclipse.gyrex.http.application.context.IResourceProvider;
 
 import org.eclipse.jetty.servlet.Holder;
+import org.eclipse.jetty.servlet.Source;
 import org.eclipse.jetty.util.URIUtil;
 
 /**
  *
  */
-public class ResourceProviderHolder extends Holder {
+public class ResourceProviderHolder extends Holder<IResourceProvider> {
 
 	private final IResourceProvider provider;
 	private final String internalName;

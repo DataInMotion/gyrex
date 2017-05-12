@@ -48,7 +48,7 @@ Export-Package: org.eclipse.gyrex.http.application;version="1.0.0",
  org.eclipse.gyrex.http.internal.application.gateway;x-friends:="org.eclipse.gyrex.http.tests,org.eclipse.gyrex.http.jetty,org.eclipse.gyrex.admin.ui.http",
  org.eclipse.gyrex.http.internal.application.manager;x-friends:="org.eclipse.gyrex.http.tests,org.eclipse.gyrex.http.jetty,org.eclipse.gyrex.admin.ui.http",
  org.eclipse.gyrex.http.staticresource
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Service-Component: OSGI-INF/console-commands.xml, OSGI-INF/httpservice-app-provider.xml, OSGI-INF/cloud-lifecycle.xml,
  OSGI-INF/automounter.xml
 

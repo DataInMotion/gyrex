@@ -27,7 +27,35 @@
          unpack="false"/>
 
    <plugin
-         id="ch.qos.logback.slf4j"
+         id="org.slf4j.api.ebr"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.slf4j.jcl.ebr"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.slf4j.jul.ebr"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.slf4j.log4j.ebr"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ch.qos.logback.slf4j.ebr"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -35,21 +63,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.slf4j.api"
+         id="ch.qos.logback.classic.ebr"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="ch.qos.logback.classic"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ch.qos.logback.core"
+         id="ch.qos.logback.core.ebr"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -170,34 +191,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.slf4j.ext"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.slf4j.jcl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.slf4j.jul"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.slf4j.log4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.equinox.event"
          download-size="0"
          install-size="0"
@@ -206,13 +199,6 @@
 
    <plugin
          id="javax.inject"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="javax.annotation"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -296,7 +282,7 @@
          unpack="false"/>
 
    <plugin
-         id="com.google.guava"
+         id="com.google.guava.ebr"
          download-size="0"
          install-size="0"
          version="0.0.0"

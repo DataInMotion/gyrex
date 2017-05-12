@@ -6,7 +6,7 @@ Bundle-Activator: org.eclipse.gyrex.services.common.internal.ServicesActivator
 Bundle-Name: %bundle.name
 Bundle-Vendor: %provider.name
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.commons.lang;version="[2.4.0,3.0.0)",
  org.osgi.framework;version="[1.6.0,2.0.0)",
  org.osgi.util.tracker;version="[1.5.0,2.0.0)"

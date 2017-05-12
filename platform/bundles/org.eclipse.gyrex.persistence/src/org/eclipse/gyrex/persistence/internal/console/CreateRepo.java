@@ -22,6 +22,7 @@ import org.eclipse.gyrex.persistence.storage.registry.IRepositoryDefinition;
 import org.eclipse.gyrex.persistence.storage.settings.IRepositoryPreferences;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -36,10 +37,10 @@ public class CreateRepo extends Command {
 	@Option(name = "-p", aliases = { "--provider-id" }, metaVar = "PROVIDER-ID", usage = "provider id", required = true)
 	protected String providerId;
 
-	@Option(name = "-set", aliases = { "--set-preference" }, metaVar = "KEY=VALUE", usage = "a preference option to set", multiValued = true)
+	@Option(name = "-set", aliases = { "--set-preference" }, metaVar = "KEY=VALUE", usage = "a preference option to set")
 	protected Map<String, String> prefsToSet;
 
-	@Option(name = "-t", aliases = { "--tags" }, metaVar = "TAG", usage = "tags to set", multiValued = true)
+	@Option(name = "-t", aliases = { "--tags" }, metaVar = "TAG", usage = "tags to set")
 	protected List<String> tags;
 
 	/**

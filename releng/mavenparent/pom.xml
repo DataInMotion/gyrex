@@ -19,8 +19,8 @@
 
     <gyrex-target-platform.version>1.4.0-SNAPSHOT</gyrex-target-platform.version>
 
-    <tycho.version>0.23.0</tycho.version>
-    <tycho-extras.version>0.23.0</tycho-extras.version>
+    <tycho.version>0.26.0</tycho.version>
+    <tycho-extras.version>0.26.0</tycho-extras.version>
 
     <cbi-plugins.version>1.1.2</cbi-plugins.version>
     <cbi-plugins-repo.url>https://repo.eclipse.org/content/groups/cbi/</cbi-plugins-repo.url>
@@ -33,7 +33,7 @@
     <!-- property for generating Eclipse source reference bundle headers -->
     <!-- (note, this needs to be overridden by module poms in other Git repos) -->
     <tycho.scmUrl>scm:git:https://git.eclipse.org/r/p/gyrex/gyrex-server.git</tycho.scmUrl>
-    
+
     <!-- allow to build with dirty working tree -->
     <jgit.dirtyWorkingTree>error</jgit.dirtyWorkingTree>
   </properties>
@@ -380,6 +380,7 @@
           <artifactId>tycho-surefire-plugin</artifactId>
           <version>${tycho.version}</version>
           <configuration>
+            <providerHint>junit47</providerHint>
             <dependencies>
               <!-- define common default dependencies -->
               <dependency>
@@ -398,7 +399,26 @@
                 <type>p2-installable-unit</type>
                 <artifactId>org.eclipse.equinox.registry</artifactId>
               </dependency>
+              <dependency>
+                <type>p2-installable-unit</type>
+                <artifactId>org.apache.aries.spifly.dynamic.bundle.ebr</artifactId>
+              </dependency>
+              <dependency>
+                <type>p2-installable-unit</type>
+                <artifactId>org.apache.aries.util.ebr</artifactId>
+              </dependency>
+              <dependency>
+                <type>p2-installable-unit</type>
+                <artifactId>org.ow2.asm.debug-all.ebr</artifactId>
+              </dependency>
             </dependencies>
+            <bundleStartLevel>
+              <bundle>
+                <id>org.apache.aries.spifly.dynamic.bundle.ebr</id>
+                <level>3</level>
+                <autoStart>true</autoStart>
+              </bundle>
+            </bundleStartLevel>
           </configuration>
         </plugin>
       </plugins>

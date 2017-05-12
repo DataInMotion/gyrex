@@ -48,7 +48,6 @@ import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -78,6 +77,22 @@ import org.slf4j.LoggerFactory;
  */
 public class AdminUiActivator extends BaseBundleActivator {
 
+	public static final String SYMBOLIC_NAME = "org.eclipse.gyrex.admin.ui"; //$NON-NLS-1$
+
+	private static final String IMAGE_REGISTRY = SYMBOLIC_NAME + "#imageRegistry";
+
+	private static final int DEFAULT_ADMIN_PORT = 3110;
+	private static final Logger LOG = LoggerFactory.getLogger(AdminUiActivator.class);
+
+	private static volatile AdminUiActivator instance;
+	private static volatile Server server;
+
+	private static final SystemSetting<Boolean> useSslConnector = SystemSetting.newBooleanSetting("gyrex.admin.secure", "enables the Gyrex Admin UI to be deliviered via HTTPS instead of plain HTTP").usingDefault(Boolean.FALSE).create();
+	private static final SystemSetting<String> authenticationConfigString = SystemSetting.newStringSetting("gyrex.admin.auth", "authentication string containing username and password hash").create();
+
+	private static final SystemSetting<Integer> adminHttpPort = SystemSetting.newIntegerSetting("gyrex.admin.http.port", "port of the Gyrex Admin UI").usingDefault(Platform.getInstancePort(DEFAULT_ADMIN_PORT)).create();
+	private static final SystemSetting<String> adminHttpHost = SystemSetting.newStringSetting("gyrex.admin.http.host", "host address the Gyrex Admin UI should accept requests on").create();
+
 	/**
 	 * Returns an image descriptor for the image file at the given plug-in
 	 * relative path
@@ -101,20 +116,6 @@ public class AdminUiActivator extends BaseBundleActivator {
 			throw new IllegalStateException("inactive");
 		return activator;
 	}
-
-	public static final String SYMBOLIC_NAME = "org.eclipse.gyrex.admin.ui"; //$NON-NLS-1$
-	private static final String IMAGE_REGISTRY = SYMBOLIC_NAME + "#imageRegistry";
-
-	private static final int DEFAULT_ADMIN_PORT = 3110;
-	private static final Logger LOG = LoggerFactory.getLogger(AdminUiActivator.class);
-
-	private static volatile AdminUiActivator instance;
-	private static volatile Server server;
-
-	private static final SystemSetting<Boolean> useSslConnector = SystemSetting.newBooleanSetting("gyrex.admin.secure", "enables the Gyrex Admin UI to be deliviered via HTTPS instead of plain HTTP").usingDefault(Boolean.FALSE).create();
-	private static final SystemSetting<String> authenticationConfigString = SystemSetting.newStringSetting("gyrex.admin.auth", "authentication string containing username and password hash").create();
-	private static final SystemSetting<Integer> adminHttpPort = SystemSetting.newIntegerSetting("gyrex.admin.http.port", "port of the Gyrex Admin UI").usingDefault(Platform.getInstancePort(DEFAULT_ADMIN_PORT)).create();
-	private static final SystemSetting<String> adminHttpHost = SystemSetting.newStringSetting("gyrex.admin.http.host", "host address the Gyrex Admin UI should accept requests on").create();
 
 	private ApplicationRunner adminApplicationRunner;
 	private StatusTracker statusTracker;
@@ -146,7 +147,6 @@ public class AdminUiActivator extends BaseBundleActivator {
 	}
 
 	private void addSslConnector(final Server server) {
-
 		try {
 
 			final File keystoreFile = Platform.getStateLocation(AdminUiActivator.getInstance().getBundle()).append("jettycerts").toFile();
@@ -266,11 +266,11 @@ public class AdminUiActivator extends BaseBundleActivator {
 		return securityHandler;
 	}
 
-	private HashSessionManager createSessionManager() {
-		final HashSessionManager sessionManager = new HashSessionManager();
-		sessionManager.setMaxInactiveInterval(1200);
-		sessionManager.setUsingCookies(false); // allows to use RAP in multiple tabs
-		return sessionManager;
+	private SessionHandler createSessionHandler() {
+		final SessionHandler sessionHandler = new SessionHandler();
+		sessionHandler.setMaxInactiveInterval(1200);
+		sessionHandler.setUsingCookies(false); // allows to use RAP in multiple tabs
+		return sessionHandler;
 	}
 
 	@Override
@@ -342,14 +342,9 @@ public class AdminUiActivator extends BaseBundleActivator {
 			server.setStopAtShutdown(true);
 			server.setStopTimeout(5000);
 
-			// set thread pool
-			// TODO: (Jetty9?) final QueuedThreadPool threadPool = new QueuedThreadPool(5);
-			// TODO: (Jetty9?) threadPool.setName("jetty-server-admin");
-			// TODO: (Jetty9?) server.setThreadPool(threadPool);
-
 			// create context
 			final ServletContextHandler contextHandler = new ServletContextHandler();
-			contextHandler.setSessionHandler(new SessionHandler(createSessionManager()));
+			contextHandler.setSessionHandler(createSessionHandler());
 			configureContextWithServletsAndResources(contextHandler);
 
 			// enable authentication if configured

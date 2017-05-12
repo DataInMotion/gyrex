@@ -28,7 +28,6 @@ import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.commons.EmptyVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +42,7 @@ public class BundleAnnotatedClassScanner {
 	final Set<Class<?>> annotatedClasses = new HashSet<>();
 	final Set<String> annotations;
 
-	private final ClassVisitor classVisitor = new EmptyVisitor() {
+	private final ClassVisitor classVisitor = new ClassVisitor(Opcodes.ASM5) {
 
 		private String currentClassName;
 		private boolean hasProperVisibility;

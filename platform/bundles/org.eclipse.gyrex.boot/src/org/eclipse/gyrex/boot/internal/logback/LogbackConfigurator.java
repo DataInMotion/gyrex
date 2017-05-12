@@ -212,7 +212,7 @@ public class LogbackConfigurator {
 		rollingPolicy.setParent(rfa);
 		rfa.setRollingPolicy(rollingPolicy);
 
-		rfa.setTriggeringPolicy(new SizeBasedTriggeringPolicy<ILoggingEvent>("5MB"));
+		rfa.setTriggeringPolicy(new SizeBasedTriggeringPolicy<ILoggingEvent>());
 
 		final PatternLayoutEncoder pl = new PatternLayoutEncoder();
 		pl.setContext(lc);

@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.gyrex.admin.ui.jobs;singleton:=true
 Bundle-Version: 1.2.0.qualifier
 Bundle-Activator: org.eclipse.gyrex.admin.ui.jobs.internal.JobsUiActivator
 Bundle-Vendor: Eclipse Gyrex
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.commons.lang;version="[2.6.0,3.0.0)",
  org.apache.commons.lang.exception;version="[2.6.0,3.0.0)",
  org.apache.commons.lang.math;version="[2.6.0,3.0.0)",

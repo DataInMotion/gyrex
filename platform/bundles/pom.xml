@@ -40,7 +40,6 @@
     <module>org.eclipse.gyrex.persistence.context.preferences</module>
     <module>org.eclipse.gyrex.persistence.derby</module>
     <module>org.eclipse.gyrex.persistence.derby.tests</module>
-    <module>org.eclipse.gyrex.persistence.eclipselink</module>
     <module>org.eclipse.gyrex.persistence.jdbc</module>
     <module>org.eclipse.gyrex.persistence.nondurable.map</module>
     <module>org.eclipse.gyrex.preferences</module>
@@ -49,5 +48,5 @@
 	<module>org.eclipse.gyrex.server.tests</module>
     <module>org.eclipse.gyrex.services.common</module>
   </modules>
-  
+
 </project>

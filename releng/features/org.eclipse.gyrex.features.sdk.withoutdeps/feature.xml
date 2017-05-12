@@ -72,14 +72,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.gyrex.features.addons.mongodb"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.gyrex.features.addons.mongodb.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.gyrex.features.addons.jersey.jaxrs"
          version="0.0.0"/>
 

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.gyrex.persistence.eclipselink.repository.provider.component">
-   <implementation class="org.eclipse.gyrex.persistence.eclipselink.internal.EclipseLinkRepositoryProvider"/>
-   <service>
-      <provide interface="org.eclipse.gyrex.persistence.storage.provider.RepositoryProvider"/>
-   </service>
-   <property name="service.vendor" type="String" value="Eclipse Gyrex"/>
-   <property name="service.description" type="String" value="Repository provider based on EclipseLink and Gemini JPA."/>
-</scr:component>

@@ -12,9 +12,6 @@
          <requireApplication
                applicationId="org.eclipse.gyrex.http.jetty.applications.engine">
          </requireApplication>
-         <requireBundle
-               symbolicName="org.eclipse.equinox.http.registry">
-         </requireBundle>
       </role>
    </extension>
    <extension

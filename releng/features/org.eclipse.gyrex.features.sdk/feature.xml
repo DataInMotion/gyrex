@@ -76,14 +76,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.gyrex.features.dependencies.mongodb"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.gyrex.features.dependencies.mongodb.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.gyrex.features.dependencies.jersey"
          version="0.0.0"/>
 

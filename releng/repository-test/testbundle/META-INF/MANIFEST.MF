@@ -4,6 +4,6 @@ Bundle-Name: Product Resolution Test
 Bundle-SymbolicName: org.eclipse.gyrex.releng.repository.test
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse Gyrex
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.gyrex.junit;bundle-version="1.0.0"
 Import-Package: org.junit;version="4.12.0"

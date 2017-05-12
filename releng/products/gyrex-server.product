@@ -11,6 +11,8 @@
 -console
       </programArgs>
       <vmArgs>-Dfile.encoding=UTF-8
+-XX:+UseG1GC -XX:+UseStringDeduplication
+-Dosgi.requiredJavaVersion=1.8
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
@@ -19,7 +21,6 @@
    <windowImages/>
 
    <launcher name="gyrex">
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
@@ -173,6 +174,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
    </features>
 
    <configurations>
+      <plugin id="org.apache.aries.spifly.dynamic.bundle.ebr" autoStart="true" startLevel="3" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.equinox.app" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
@@ -185,6 +187,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <property name="gyrex.buildTimestamp" value="${buildTimestamp}" />
       <property name="org.eclipse.equinox.http.jetty.autostart" value="false" />
       <property name="osgi.bundles.defaultStartLevel" value="4" />
+      <property name="osgi.compatibility.bootdelegation" value="false" />
    </configurations>
 
 </product>

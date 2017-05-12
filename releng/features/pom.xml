@@ -8,14 +8,14 @@
   <artifactId>gyrex-features</artifactId>
   <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  
+
   <parent>
     <groupId>org.eclipse.gyrex.releng</groupId>
     <artifactId>gyrex-maven-parent</artifactId>
   	<version>1.4.0-SNAPSHOT</version>
 	<relativePath>../mavenparent/</relativePath>
   </parent>
-  
+
   <modules>
     <module>org.eclipse.gyrex.features.dependencies.admin</module>
     <module>org.eclipse.gyrex.features.dependencies.commons</module>
@@ -31,18 +31,14 @@
     <module>org.eclipse.gyrex.features.processing</module>
     <module>org.eclipse.gyrex.features.server</module>
     <module>org.eclipse.gyrex.features.admin</module>
-  
-    <module>org.eclipse.gyrex.features.dependencies.eclipselink</module>
-    <module>org.eclipse.gyrex.features.jpa</module>
 
     <module>org.eclipse.gyrex.features.tests</module>
-	
+
     <module>org.eclipse.gyrex.features.sdk.withoutdeps</module>
     <module>org.eclipse.gyrex.features.sdk</module>
-    <module>org.eclipse.gyrex.features.sdk.addons</module>
 
 	<module>org.eclipse.gyrex.features.master</module>
 
 	</modules>
-  
+
 </project>

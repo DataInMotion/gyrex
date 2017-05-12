@@ -35,13 +35,13 @@ import org.eclipse.gyrex.http.jetty.internal.JettyEngineApplication;
 import org.eclipse.gyrex.server.Platform;
 
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.jetty.http.PathMap;
-import org.eclipse.jetty.http.PathMap.MappedEntry;
+import org.eclipse.jetty.http.pathmap.MappedResource;
+import org.eclipse.jetty.http.pathmap.PathMappings;
+import org.eclipse.jetty.http.pathmap.PathSpec;
 import org.eclipse.jetty.security.SecurityHandler;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ErrorHandler;
-import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.StringUtil;
@@ -137,7 +137,7 @@ public class ApplicationHandler extends ServletContextHandler {
 	private final ThreadLocal<String> currentContextPath = new ThreadLocal<>();
 	private final ApplicationRegistration applicationRegistration;
 	private final CopyOnWriteArraySet<String> urls = new CopyOnWriteArraySet<>();
-	private final PathMap<ResourceProviderHolder> resourcesMap = new PathMap<>();
+	private final PathMappings<ResourceProviderHolder> resourcesMap = new PathMappings<>();
 	private final boolean showDebugInfo = Platform.inDebugMode() || Platform.inDevelopmentMode();
 	private final ApplicationHandlerMetrics metrics;
 
@@ -148,7 +148,7 @@ public class ApplicationHandler extends ServletContextHandler {
 
 	/**
 	 * Creates a new instance.
-	 * 
+	 *
 	 * @param applicationId
 	 */
 	public ApplicationHandler(final ApplicationRegistration applicationRegistration) {
@@ -178,7 +178,7 @@ public class ApplicationHandler extends ServletContextHandler {
 
 	/**
 	 * Adds a resource to the application.
-	 * 
+	 *
 	 * @param pathSpec
 	 * @param resourceProviderHolder
 	 */
@@ -193,9 +193,9 @@ public class ApplicationHandler extends ServletContextHandler {
 	private SessionHandler createSessionHandler() {
 		// make sure the set a proper session inactive interval
 		// otherwise Jetty will keep sessions open forever
-		final HashSessionManager sessionManager = new HashSessionManager();
-		sessionManager.setMaxInactiveInterval(NumberUtils.toInt(getInitParameter("session.maxInactiveInterval"), 1800));
-		return new SessionHandler(sessionManager);
+		final SessionHandler sessionHandler = new SessionHandler();
+		sessionHandler.setMaxInactiveInterval(NumberUtils.toInt(getInitParameter("session.maxInactiveInterval"), 1800));
+		return sessionHandler;
 	}
 
 	@Override
@@ -308,16 +308,7 @@ public class ApplicationHandler extends ServletContextHandler {
 			}
 
 			// next scope
-			// start manual inline of nextScope(target,baseRequest,request,response);
-			if (never()) {
-				nextScope(target, baseRequest, request, response);
-			} else if (_nextScope != null) {
-				_nextScope.doScope(target, baseRequest, request, response);
-			} else if (_outerScope != null) {
-				_outerScope.doHandle(target, baseRequest, request, response);
-			} else {
-				doHandle(target, baseRequest, request, response);
-			} // end manual inline (pathetic attempt to reduce stack depth)
+			nextScope(target, baseRequest, request, response);
 		} finally {
 			if (newContext) {
 				// reset the context and servlet path
@@ -376,7 +367,7 @@ public class ApplicationHandler extends ServletContextHandler {
 
 	/**
 	 * Returns the application
-	 * 
+	 *
 	 * @return the application
 	 */
 	public Application getApplication() {
@@ -389,7 +380,7 @@ public class ApplicationHandler extends ServletContextHandler {
 
 	/**
 	 * Returns the application id.
-	 * 
+	 *
 	 * @return the application id
 	 */
 	public String getApplicationId() {
@@ -398,7 +389,7 @@ public class ApplicationHandler extends ServletContextHandler {
 
 	/**
 	 * Returns the application registration.
-	 * 
+	 *
 	 * @return the application registration
 	 */
 	public ApplicationRegistration getApplicationRegistration() {
@@ -417,7 +408,7 @@ public class ApplicationHandler extends ServletContextHandler {
 	 * is active, i.e. if called outside a request scope, <code>null</code> will
 	 * be returned.
 	 * </p>
-	 * 
+	 *
 	 * @return the context path (maybe <code>null</code> if unable to determine)
 	 */
 	public String getCurrentContextPath() {
@@ -428,7 +419,7 @@ public class ApplicationHandler extends ServletContextHandler {
 	 * Returns the handler that is responsible for routing requests to
 	 * {@link Application#handleRequest(HttpServletRequest, HttpServletResponse)}
 	 * .
-	 * 
+	 *
 	 * @return the application delegate handler
 	 */
 	public ApplicationDelegateHandler getDelegateHandler() {
@@ -441,7 +432,7 @@ public class ApplicationHandler extends ServletContextHandler {
 
 	/**
 	 * Looks up and returns a resource for the specified path.
-	 * 
+	 *
 	 * @param path
 	 * @return the found resource (maybe <code>null</code> if non is registered
 	 *         for the specified path)
@@ -451,19 +442,19 @@ public class ApplicationHandler extends ServletContextHandler {
 	public Resource getResource(String path) throws MalformedURLException {
 		// data structure which maps a request to a resource provider; first-best match wins
 		// { path =>  resource provider holder }
-		if (resourcesMap.isEmpty() || (null == path) || !path.startsWith(URIUtil.SLASH))
+		if ((resourcesMap.size() == 0) || (path == null) || !path.startsWith(URIUtil.SLASH))
 			return null;
 
 		path = URIUtil.canonicalPath(path);
-		final MappedEntry<ResourceProviderHolder> entry = resourcesMap.getMatch(path);
+		final MappedResource<ResourceProviderHolder> entry = resourcesMap.getMatch(path);
 		if (null == entry)
 			return null;
-		final ResourceProviderHolder provider = entry.getValue();
+		final ResourceProviderHolder provider = entry.getResource();
 		if (null == provider)
 			return null;
 
-		final String pathSpec = entry.getKey();
-		final String pathInfo = PathMap.pathInfo(pathSpec, path);
+		final PathSpec pathSpec = entry.getPathSpec();
+		final String pathInfo = pathSpec.getPathInfo(path);
 		final URL resourceUrl = provider.getResource(pathInfo);
 		if (null == resourceUrl)
 			return null;
@@ -485,7 +476,7 @@ public class ApplicationHandler extends ServletContextHandler {
 
 	/**
 	 * Returns the servlet handler.
-	 * 
+	 *
 	 * @return the servlet handler
 	 */
 	@Override
@@ -502,7 +493,7 @@ public class ApplicationHandler extends ServletContextHandler {
 
 	/**
 	 * Returns all mount urls.
-	 * 
+	 *
 	 * @return the urls
 	 */
 	public String[] getUrls() {
@@ -532,11 +523,11 @@ public class ApplicationHandler extends ServletContextHandler {
 
 	/**
 	 * Removes a resource from the application.
-	 * 
+	 *
 	 * @param pathSpec
 	 */
 	public void removeResource(final String pathSpec) {
-		resourcesMap.remove(pathSpec);
+		resourcesMap.remove(PathMappings.asPathSpec(pathSpec));
 	}
 
 	public void removeUrl(final String url) {

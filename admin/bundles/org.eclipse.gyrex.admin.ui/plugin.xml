@@ -23,9 +23,6 @@
          <requireBundle
                symbolicName="org.eclipse.gyrex.admin.ui">
          </requireBundle>
-         <requireBundle
-               symbolicName="org.eclipse.equinox.http.registry">
-         </requireBundle>
       </role>
    </extension>
    <extension

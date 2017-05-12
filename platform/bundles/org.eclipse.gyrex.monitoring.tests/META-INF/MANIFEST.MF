@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.gyrex.monitoring.tests
 Bundle-Version: 1.2.0.qualifier
 Bundle-Activator: org.eclipse.gyrex.monitoring.tests.MonitoringTestsActivator
 Bundle-Vendor: Eclipse Gyrex
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.junit;version="4.8.2",
  org.osgi.framework;version="1.3.0"
 Bundle-ActivationPolicy: lazy

@@ -5,7 +5,7 @@ Bundle-Version: 1.2.0.qualifier
 Bundle-Name: %bundle.name
 Bundle-Vendor: %provider.name
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.gyrex.model.common.internal.ModelActivator
 Import-Package: org.apache.commons.lang;version="[2.4.0,3.0.0)",

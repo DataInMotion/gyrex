@@ -6,7 +6,7 @@ Bundle-Activator: org.eclipse.gyrex.persistence.tests.internal.PersistenceTestsA
 Bundle-Name: %bundle.name
 Bundle-Vendor: %provider.name
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.inject;version="1.0.0",
  junit.framework;version="4.10.0",
  org.junit;version="4.10.0",

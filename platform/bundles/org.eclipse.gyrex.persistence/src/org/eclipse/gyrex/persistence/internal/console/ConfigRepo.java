@@ -19,6 +19,7 @@ import org.eclipse.gyrex.persistence.internal.storage.RepositoryDefinition;
 import org.eclipse.gyrex.persistence.storage.settings.IRepositoryPreferences;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -30,18 +31,18 @@ public class ConfigRepo extends BaseRepoSelectingCommand {
 	@Argument(index = 0, metaVar = "ID-SUB-STRING", usage = "repository sub-string id filter", required = true)
 	protected String repositoryIdFilterArg;
 
-	@Option(name = "-set", aliases = { "--set-preference" }, metaVar = "KEY=VALUE", usage = "a preference option to set", multiValued = true)
+	@Option(name = "-set", aliases = { "--set-preference" }, metaVar = "KEY=VALUE", usage = "a preference option to set")
 	protected Map<String, String> prefsToSet;
 
-	@Option(name = "-rm", aliases = { "--remove-preference" }, metaVar = "KEY", usage = "a preference option to set", multiValued = true)
+	@Option(name = "-rm", aliases = { "--remove-preference" }, metaVar = "KEY", usage = "a preference option to set")
 	protected List<String> prefsToRemove;
 
-	@Option(name = "-t", aliases = { "--tags" }, metaVar = "TAG", usage = "tags to set", multiValued = true)
+	@Option(name = "-t", aliases = { "--tags" }, metaVar = "TAG", usage = "tags to set")
 	protected List<String> tags;
 
 	/**
 	 * Creates a new instance.
-	 * 
+	 *
 	 * @param description
 	 */
 	public ConfigRepo() {
@@ -51,9 +52,8 @@ public class ConfigRepo extends BaseRepoSelectingCommand {
 	@Override
 	protected String getRepositoryIdFilter() {
 		// allow specifying filter as argument
-		if (null != repositoryIdFilterArg) {
+		if (null != repositoryIdFilterArg)
 			return repositoryIdFilterArg;
-		}
 
 		// fallback to option
 		return super.getRepositoryIdFilter();

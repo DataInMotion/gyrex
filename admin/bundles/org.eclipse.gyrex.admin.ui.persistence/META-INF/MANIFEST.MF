@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.gyrex.admin.ui.persistence;singleton:=true
 Bundle-Version: 1.2.0.qualifier
 Bundle-Activator: org.eclipse.gyrex.admin.ui.persistence.internal.PersistenceUiActivator
 Bundle-Vendor: Eclipse Gyrex
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.commons.lang.exception;version="2.4.0",
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.conversion,

@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.gyrex.http.equinoxhttpservice
 Bundle-Version: 1.2.0.qualifier
 Bundle-Activator: org.eclipse.gyrex.http.equinoxhttpservice.internal.HttpServiceActivator
 Bundle-Vendor: Eclipse Gyrex
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.servlet;version="2.6.0",
  org.eclipse.gyrex.server;version="[1.0.0,2.0.0)",
  org.eclipse.gyrex.server.settings;version="1.0.0",

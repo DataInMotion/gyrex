@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.gyrex.persistence.mongodb.commands.component">
-   <implementation class="org.eclipse.gyrex.persistence.mongodb.internal.commands.MongoDbCommands"/>
-   <service>
-      <provide interface="org.eclipse.osgi.framework.console.CommandProvider"/>
-   </service>
-   <property name="service.vendor" type="String" value="Eclipse Gyrex"/>
-   <property name="service.description" type="String" value="Console commands for working with MongoDB persistence."/>
-</scr:component>

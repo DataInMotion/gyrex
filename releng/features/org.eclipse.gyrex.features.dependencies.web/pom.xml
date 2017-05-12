@@ -29,7 +29,7 @@
         </executions>
         <configuration>
           <excludes>
-            <plugin id="org.eclipse.jetty.osgi.npn.fragment" />
+            <plugin id="org.eclipse.jetty.osgi.alpn.fragment" />
             <plugin id="org.json" />
           </excludes>
         </configuration>

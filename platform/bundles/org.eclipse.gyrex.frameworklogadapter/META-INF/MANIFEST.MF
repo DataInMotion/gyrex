@@ -5,5 +5,5 @@ Bundle-SymbolicName: org.eclipse.gyrex.frameworklogadapter
 Bundle-Version: 1.4.0.qualifier
 Bundle-Vendor: Eclipse Gyrex
 Fragment-Host: org.eclipse.osgi;bundle-version="3.10.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.gyrex.frameworklogadapter.internal;x-internal:=true

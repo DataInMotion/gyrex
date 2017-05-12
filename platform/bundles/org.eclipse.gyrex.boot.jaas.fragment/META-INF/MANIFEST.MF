@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Gyrex JAAS Fragment
 Bundle-SymbolicName: org.eclipse.gyrex.boot.jaas.fragment
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Fragment-Host: org.apache.sshd.core;bundle-version="0.5.0"
 Bundle-Vendor: Eclipse Gyrex
 Require-Bundle: org.eclipse.equinox.console.ssh;bundle-version="1.0.0"

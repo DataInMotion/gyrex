@@ -4,7 +4,7 @@ Bundle-Name: %bundle.name
 Bundle-SymbolicName: org.eclipse.gyrex.persistence.context.preferences
 Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: %provider.name
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Localization: plugin
 Export-Package: org.eclipse.gyrex.persistence.context.preferences;uses:="org.eclipse.gyrex.monitoring.metrics,org.eclipse.gyrex.persistence.storage,org.eclipse.gyrex.persistence.storage.type",
  org.eclipse.gyrex.persistence.context.preferences.internal;x-internal:=true

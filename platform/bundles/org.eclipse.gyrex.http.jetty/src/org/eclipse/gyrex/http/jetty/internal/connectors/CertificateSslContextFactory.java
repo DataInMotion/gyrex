@@ -15,6 +15,7 @@ import java.security.KeyStore;
 
 import org.eclipse.gyrex.http.jetty.admin.ICertificate;
 
+import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 /**
@@ -27,7 +28,7 @@ public class CertificateSslContextFactory extends SslContextFactory {
 
 	/**
 	 * Creates a new instance.
-	 * 
+	 *
 	 * @param certificate
 	 */
 	public CertificateSslContextFactory(final ICertificate certificate) {
@@ -44,17 +45,12 @@ public class CertificateSslContextFactory extends SslContextFactory {
 	}
 
 	@Override
-	public void checkKeyStore() {
-		// check not necessary in this implementation
-	}
-
-	@Override
-	protected KeyStore loadKeyStore() throws Exception {
+	protected KeyStore loadKeyStore(final Resource resource) throws Exception {
 		return certificate.getKeyStore();
 	}
 
 	@Override
-	protected KeyStore loadTrustStore() throws Exception {
+	protected KeyStore loadTrustStore(final Resource resource) throws Exception {
 		return certificate.getKeyStore();
 	}
 

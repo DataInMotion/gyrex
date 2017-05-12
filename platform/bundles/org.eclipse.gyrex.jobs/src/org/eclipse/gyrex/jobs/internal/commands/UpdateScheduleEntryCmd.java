@@ -38,7 +38,7 @@ public class UpdateScheduleEntryCmd extends BaseScheduleStoreCmd {
 	@Option(name = "--cron-expression", aliases = { "-cron" }, usage = "updates the cron expression", metaVar = "EXPR")
 	String cronExpression;
 
-	@Option(name = "--add-preceding-entry", aliases = { "-preceding" }, usage = "sets a dependency on another schedule entry id ", multiValued = true, metaVar = "OTHERENTRYID")
+	@Option(name = "--add-preceding-entry", aliases = { "-preceding" }, usage = "sets a dependency on another schedule entry id ", metaVar = "OTHERENTRYID")
 	List<String> precedingEntries;
 
 	@Option(name = "--remove-all-preceding-entries", aliases = { "-nopreceding" }, usage = "unsets all dependencies on other schedule entries")
@@ -50,10 +50,10 @@ public class UpdateScheduleEntryCmd extends BaseScheduleStoreCmd {
 	@Option(name = "--disable", aliases = { "-off" }, usage = "disables the schedule entry")
 	Boolean disable;
 
-	@Option(name = "--set-parameter", aliases = { "-set" }, usage = "sets a schedule paramater", multiValued = true, metaVar = "KEY=VALUE")
+	@Option(name = "--set-parameter", aliases = { "-set" }, usage = "sets a schedule paramater", metaVar = "KEY=VALUE")
 	List<String> parameterToSet;
 
-	@Option(name = "--unset-parameter", aliases = { "-unset" }, usage = "unsets a schedule paramater", multiValued = true, metaVar = "KEY")
+	@Option(name = "--unset-parameter", aliases = { "-unset" }, usage = "unsets a schedule paramater", metaVar = "KEY")
 	List<String> parameterToRemove;
 
 	/**
